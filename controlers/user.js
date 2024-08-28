@@ -3,7 +3,7 @@ import User from '../Models/Usermodel.js';
 
 // question 1
 export const getUser = async (req, res) => {
-    const getUser = await User.findById({_id: "66cebc4352410a478a4d2de1"});
+    const getUser = await User.find();
     console.log(getUser);
     res.json(getUser);
 }
