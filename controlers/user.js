@@ -1,4 +1,4 @@
-import { response } from 'express';
+// import { response } from 'express';
 import User from '../Models/Usermodel.js';
 
 // question 1
@@ -24,18 +24,21 @@ export const addUser = async (req, res) => {
     } 
     catch (error) {
         console.error(error);
-        res.status(400).json({ error: 'Registration failed' });
+        res.status(400).json({ Message: 'Registration failed' , Error: error });
     }
 }
 
 // question 3
-const person = "66cf42c7d0a0d7e9c07af300"
+// const person = "66cf42c7d0a0d7e9c07af300"
 export const updateUser = async(req, res) => {
+    const {_id, name, age, favouriteFoods} = req.body
     try {
-        const updateUser = await User.findById({_id: person}); 
+        const updateUser = await User.findById(_id); 
+        name && (updateUser.name = name);
+        age && (updateUser.age = age);
+        favouriteFoods && (updateUser.favouriteFoods = favouriteFoods);
         console.log(updateUser);
-        
-        updateUser.favouriteFoods=["asjk", "djkaudh", "ndcbcuccdional"]
+        // updateUser.favouriteFoods=["asjk", "djkaudh", "ndcbcuccdional"]
         const updatedUser = await updateUser.save()
         console.log (updatedUser);
         res.json(updatedUser)
@@ -45,10 +48,10 @@ export const updateUser = async(req, res) => {
     }
 }
 
-const id = "66cebc4352410a478a4d2de1"
+// const id = "66cebc4352410a478a4d2de1"
 export const deleteUser =async (req, res) => {
     try {
-        const deleteUser = await User.findByIdAndDelete(id);
+        const deleteUser = await User.findByIdAndDelete(req.params.id);
         console.log(deleteUser);
         res.json(deleteUser);
     } catch (error) {

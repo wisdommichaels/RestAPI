@@ -5,24 +5,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    favouriteFoods: {
-        type: [String],
-        // foods: ['Pizza', 'Pasta', 'Burger', 'Salad', 'Pancake']
-    },
-
-    // password: {
-    //     type: String,
-    //     required: true
-    // },
-    // email: {
-    //     type: String,
-    //     required: true,
-    //     unique: true,
-    //     match: [/.+\@.+\..+/, "Please enter a valid email"]
-    // },
     age: {
         type: Number,
         required: true,
+    },
+    favouriteFoods: {
+        type: [String],
     }
 }) 
 

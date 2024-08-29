@@ -14,7 +14,7 @@ app.get('/', (req, res) =>{
     res.end ("server is working")
 })
 
-app.route('/User')
+app.route('/User/:id')
     .get(getUser)
     .post(addUser)
     .put(updateUser)
