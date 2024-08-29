@@ -1,61 +1,99 @@
 // import { response } from 'express';
 import User from '../Models/Usermodel.js';
 
-// question 1
+// question 1: Fetch all users
 export const getUser = async (req, res) => {
+    // Retrieve all users from the database
     const getUser = await User.find();
+    
+    // Log the retrieved users to the console
     console.log(getUser);
+    
+    // Send the list of users as a JSON response
     res.json(getUser);
 }
 
-// question 2
+// question 2: Add a new user
 export const addUser = async (req, res) => {
-    const { name, email, password, age, } = req.body;
+    // Destructure the required fields from the request body
+    const { name, email, password, age } = req.body;
+    
     try {
-        const addUser = await User.create(
-        {
-         name : name,
-         email : email,
-         password : password,
-         age : age,
-        })
+        // Create a new user in the database with the provided data
+        const addUser = await User.create({
+            name: name,
+            email: email,
+            password: password,
+            age: age,
+        });
+        
+        // Log the newly created user to the console
         console.log(addUser);
+        
+        // Send the newly created user as a JSON response
         res.json(addUser);
     } 
     catch (error) {
+        // Log any errors to the console
         console.error(error);
-        res.status(400).json({ Message: 'Registration failed' , Error: error });
+        
+        // Send a 400 status with an error message if registration fails
+        res.status(400).json({ Message: 'Registration failed', Error: error });
     }
 }
 
-// question 3
-// const person = "66cf42c7d0a0d7e9c07af300"
+// question 3: Update an existing user
 export const updateUser = async(req, res) => {
-    const {_id, name, age, favouriteFoods} = req.body
+    // Destructure the required fields from the request body
+    const {_id, name, age, favouriteFoods} = req.body;
+    
     try {
-        const updateUser = await User.findById(_id); 
+        // Find the user in the database by ID
+        const updateUser = await User.findById(_id);
+        
+        // Update the user's fields if they are provided in the request body
         name && (updateUser.name = name);
         age && (updateUser.age = age);
         favouriteFoods && (updateUser.favouriteFoods = favouriteFoods);
+        
+        // Log the updated user (before saving) to the console
         console.log(updateUser);
-        // updateUser.favouriteFoods=["asjk", "djkaudh", "ndcbcuccdional"]
-        const updatedUser = await updateUser.save()
-        console.log (updatedUser);
-        res.json(updatedUser)
-    } catch (error) {
+        
+        // Save the updated user back to the database
+        const updatedUser = await updateUser.save();
+        
+        // Log the updated and saved user to the console
+        console.log(updatedUser);
+        
+        // Send the updated user as a JSON response
+        res.json(updatedUser);
+    } 
+    catch (error) {
+        // Log any errors to the console
         console.error(error);
-        res.status(400).json({ error: 'Update failed' });
+        
+        // Send a 400 status with an error message if updating fails
+        res.status(400).json({ Message: 'Registration failed', Error: error });
     }
 }
 
-// const id = "66cebc4352410a478a4d2de1"
-export const deleteUser =async (req, res) => {
+// question 4: Delete a user
+export const deleteUser = async (req, res) => {
     try {
+        // Find and delete the user by ID, which is passed as a URL parameter
         const deleteUser = await User.findByIdAndDelete(req.params.id);
+        
+        // Log the deleted user to the console
         console.log(deleteUser);
+        
+        // Send the deleted user as a JSON response
         res.json(deleteUser);
-    } catch (error) {
+    } 
+    catch (error) {
+        // Log any errors to the console
         console.log(error);
-        res.status(400).json({ error: 'Delete failed' });
+        
+        // Send a 400 status with an error message if deletion fails
+        res.status(400).json({ Message: 'Registration failed', Error: error });
     }
 }
